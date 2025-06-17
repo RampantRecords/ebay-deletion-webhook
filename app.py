@@ -2,7 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-# EXACT 32-char token
+# Your 32-character verification token
 VERIFICATION_TOKEN = "RampantWebhookTokenABC123456789012"
 
 @app.route('/')
@@ -11,13 +11,13 @@ def home():
 
 @app.route('/ebay-deletion', methods=['POST'])
 def ebay_deletion():
-    # eBay verification challenge
-    if request.args.get("challengeCode"):
-        challenge = request.args.get("challengeCode")
-        print(f"🔐 Responding to eBay challenge: {challenge}")
+    # 🛑 This handles the initial eBay verification challenge
+    if 'challengeCode' in request.args:
+        challenge = request.args.get('challengeCode')
+        print(f"🔐 eBay challenge received: {challenge}")
         return challenge, 200
 
-    # Handle real deletion events
+    # ✅ This handles actual deletion events
     data = request.get_json()
     print("📬 eBay Deletion Notice Received:")
     print(data)
